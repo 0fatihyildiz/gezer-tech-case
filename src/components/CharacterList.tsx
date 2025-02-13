@@ -1,8 +1,8 @@
 'use client'
 
 import { useCharacters } from '@/hooks/useCharacters'
-import { useFiltersStore } from '@/store/useFiltersStore'
 import Image from 'next/image'
+import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import CharacterFilters from './CharacterFilters'
 import { Button } from './ui/button'
@@ -11,16 +11,17 @@ import { Skeleton } from './ui/skeleton'
 
 export default function CharacterList() {
     const [page, setPage] = useState(1)
-    const filters = useFiltersStore(state => state.filters)
-    const { data, isLoading, isError, error } = useCharacters(filters, page)
+    const searchParams = useSearchParams()
+    const status = searchParams.get('status') || undefined
+    const gender = searchParams.get('gender') || undefined
+
+    const { data, isLoading, isError, error } = useCharacters({ status, gender }, page)
 
     useEffect(() => {
-        if (filters && Object.keys(filters).length > 0) {
-            if (data && data.results.length === 0 && page > 1) {
-                setPage(1)
-            }
+        if (data && data.results.length === 0 && page > 1) {
+            setPage(1)
         }
-    }, [data, page, filters])
+    }, [data, page, status, gender])
 
     if (isError) {
         return (
