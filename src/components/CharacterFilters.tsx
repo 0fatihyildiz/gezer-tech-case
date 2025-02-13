@@ -1,7 +1,7 @@
 'use client'
 
 import { GENDER_OPTIONS, STATUS_OPTIONS } from '@/constants/filter'
-import { useFiltersStore } from '@/store/useFiltersStore'
+import { useRouter, useSearchParams } from 'next/navigation'
 import {
     Select,
     SelectContent,
@@ -11,20 +11,23 @@ import {
 } from './ui/select'
 
 export default function CharacterFilters() {
-    const { setFilter, filters } = useFiltersStore()
+    const router = useRouter()
+    const searchParams = useSearchParams()
+    const currentStatus = searchParams.get('status') || 'all'
+    const currentGender = searchParams.get('gender') || 'all'
 
     const handleFilterChange = (key: 'status' | 'gender', value: string) => {
-        setFilter(key, (value === 'all' || value === '') ? undefined : value)
-    }
-
-    const getCurrentValue = (key: 'status' | 'gender') => {
-        return filters[key] || undefined
+        const params = new URLSearchParams(searchParams.toString())
+        params.set(key, value)
+        if (value === 'all')
+            params.delete(key)
+        router.push(`/?${params.toString()}`)
     }
 
     return (
         <div className="flex gap-4 mb-6">
             <Select
-                value={getCurrentValue('status')}
+                value={currentStatus}
                 onValueChange={value => handleFilterChange('status', value)}
             >
                 <SelectTrigger className="w-[180px]">
@@ -40,7 +43,7 @@ export default function CharacterFilters() {
             </Select>
 
             <Select
-                value={getCurrentValue('gender')}
+                value={currentGender}
                 onValueChange={value => handleFilterChange('gender', value)}
             >
                 <SelectTrigger className="w-[180px]">
