@@ -2,7 +2,8 @@
 
 import { useCharacters } from '@/hooks/useCharacters'
 import { useFiltersStore } from '@/store/useFiltersStore'
-import { useState } from 'react'
+import Image from 'next/image'
+import { useEffect, useState } from 'react'
 import CharacterFilters from './CharacterFilters'
 import { Button } from './ui/button'
 import { Card, CardContent } from './ui/card'
@@ -13,11 +14,22 @@ export default function CharacterList() {
     const filters = useFiltersStore(state => state.filters)
     const { data, isLoading, isError, error } = useCharacters(filters, page)
 
+    useEffect(() => {
+        if (filters && Object.keys(filters).length > 0) {
+            if (data && data.results.length === 0 && page > 1) {
+                setPage(1)
+            }
+        }
+    }, [data, page, filters])
+
     if (isError) {
         return (
-            <div className="text-red-500">
-                Error:
-                {error.message}
+            <div className="flex flex-col items-center p-4 text-center text-red-500">
+                <h2 className="text-xl font-bold">An error occurred.</h2>
+                <p className="mb-4">{error.message}</p>
+                <Button onClick={() => window.location.reload()}>
+                    Try Again
+                </Button>
             </div>
         )
     }
@@ -31,7 +43,7 @@ export default function CharacterList() {
                             {[...Array.from({ length: 6 })].map((_, i) => (
                                 <Card key={i}>
                                     <CardContent>
-                                        <Skeleton className="h-48 w-full" />
+                                        <Skeleton className="h-48 w-full mt-5" />
                                         <Skeleton className="h-6 w-3/4 mt-2" />
                                         <Skeleton className="h-4 w-1/2 mt-2" />
                                     </CardContent>
@@ -45,7 +57,18 @@ export default function CharacterList() {
                                 {data?.results.map(character => (
                                     <Card key={character.id}>
                                         <CardContent>
-                                            <img src={character.image} alt={character.name} className="w-full" />
+                                            <Image
+                                                src={character.image}
+                                                alt={character.name}
+                                                className="w-full mt-5 rounded-md bg-zinc-100"
+                                                width={300}
+                                                height={300}
+                                                style={{
+                                                    width: '100%',
+                                                    height: 'auto',
+                                                    objectFit: 'cover',
+                                                }}
+                                            />
                                             <h2 className="text-xl font-bold mt-2">{character.name}</h2>
                                             <p>
                                                 Status:

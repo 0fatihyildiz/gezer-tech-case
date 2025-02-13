@@ -4,10 +4,27 @@ import { api } from '@/services/apiClient'
 import { useQuery } from '@tanstack/react-query'
 
 export async function getCharacters(filters: CharacterFilters, page: number = 1): Promise<ApiResponse<Character>> {
-    return api.get<ApiResponse<Character>>('/character', {
-        ...filters,
-        page: page.toString(),
-    })
+    try {
+        return await api.get<ApiResponse<Character>>('/character', {
+            ...filters,
+            page: page.toString(),
+        })
+    }
+    catch (error: any) {
+        if (error.message.includes('404')) {
+            console.warn('No characters found for the given filters and page.')
+            return {
+                info: {
+                    count: 0,
+                    pages: 0,
+                    next: null,
+                    prev: null,
+                },
+                results: [],
+            }
+        }
+        throw error
+    }
 }
 
 export function useCharacters(filters: CharacterFilters, page: number = 1) {
@@ -15,7 +32,8 @@ export function useCharacters(filters: CharacterFilters, page: number = 1) {
         queryKey: ['characters', filters, page],
         queryFn: () => getCharacters(filters, page),
         staleTime: 5 * 60 * 1000, // 5 minutes
-        retry: 2,
+        retry: false,
         refetchOnWindowFocus: false,
+        placeholderData: previousData => previousData,
     })
 }
