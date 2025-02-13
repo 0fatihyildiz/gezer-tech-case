@@ -4,9 +4,13 @@ import { api } from '@/services/apiClient'
 import { useQuery } from '@tanstack/react-query'
 
 export async function getCharacters(filters: CharacterFilters, page: number = 1): Promise<ApiResponse<Character>> {
+    const sanitizedFilters = Object.fromEntries(
+        Object.entries(filters).filter(([, value]) => value !== undefined),
+    ) as CharacterFilters
+
     try {
         return await api.get<ApiResponse<Character>>('/character', {
-            ...filters,
+            ...sanitizedFilters,
             page: page.toString(),
         })
     }

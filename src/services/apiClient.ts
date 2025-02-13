@@ -1,8 +1,12 @@
 const BASE_URL = 'https://rickandmortyapi.com/api'
 
 export const api = {
-    get: async <T>(endpoint: string, params?: Record<string, string | number>): Promise<T> => {
-        const queryString = params ? `?${new URLSearchParams(params as Record<string, string>)}` : ''
+    get: async <T>(endpoint: string, params?: Record<string, string | number | undefined>): Promise<T> => {
+        const filteredParams = Object.fromEntries(
+            Object.entries(params || {}).filter(([, value]) => value !== undefined),
+        ) as Record<string, string | number>
+
+        const queryString = filteredParams ? `?${new URLSearchParams(filteredParams as Record<string, string>)}` : ''
         const response = await fetch(`${BASE_URL}${endpoint}${queryString}`)
 
         if (!response.ok) {

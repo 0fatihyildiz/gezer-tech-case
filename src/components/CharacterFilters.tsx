@@ -14,11 +14,11 @@ export default function CharacterFilters() {
     const { setFilter, filters } = useFiltersStore()
 
     const handleFilterChange = (key: 'status' | 'gender', value: string) => {
-        setFilter(key, value === 'all' ? undefined : value)
+        setFilter(key, (value === 'all' || value === '') ? undefined : value)
     }
 
     const getCurrentValue = (key: 'status' | 'gender') => {
-        return filters[key] || 'all'
+        return filters[key] || undefined
     }
 
     return (

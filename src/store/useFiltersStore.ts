@@ -10,11 +10,15 @@ interface FiltersState {
 export const useFiltersStore = create<FiltersState>(set => ({
     filters: {},
     setFilter: (key, value) =>
-        set(state => ({
-            filters: {
-                ...state.filters,
-                [key]: value,
-            },
-        })),
+        set((state) => {
+            const newFilters = { ...state.filters }
+            if (value === undefined) {
+                delete newFilters[key]
+            }
+            else {
+                newFilters[key] = value
+            }
+            return { filters: newFilters }
+        }),
     resetFilters: () => set({ filters: {} }),
 }))
