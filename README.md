@@ -1,36 +1,96 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Rick and Morty Character Lister with Filtering
+
+This project is a Next.js 14 application that lists characters from the Rick and Morty API, allowing users to filter them based on status and gender. It utilizes Server-Side Rendering (SSR) for optimal performance and SEO.
+
+## Technologies Used
+
+-   **Next.js 14:** React framework for building server-rendered applications.
+-   **TypeScript:** Superset of JavaScript that adds static typing.
+-   **Tailwind CSS:** Utility-first CSS framework for rapid UI development.
+-   **Shadcn/ui:** Reusable component library for modern UI design.
+-   **Zustand:** State management library for managing global application state.
+-   **TanStack React Query:** Data fetching and caching library for managing API calls.
+-   **ESLint & Prettier:** For code linting and formatting.
+-   **Husky & Lint-Staged:** For automating linting and formatting on commit.
+-   **pnpm:** Package manager.
+-   **antfu/eslint-config:** ESLint configuration.
+
+## Features
+
+-   **Character Listing:** Fetches and displays characters from the Rick and Morty API.
+-   **Filtering:** Allows filtering characters by status and gender.
+-   **Integrated Filters:** Filters work together to refine search results (e.g., "alive" and "male").
+-   **Modern UI:** Utilizes Shadcn/ui components for a clean and modern user interface.
+-   **Server-Side Rendering (SSR):** Pages are rendered on the server for improved performance and SEO.
+-   **Global State Management:** Zustand is used for managing global state, such as filter selections.
+-   **API Call Management:** React Query is used for efficient API call management and caching.
+-   **Automated Linting and Formatting:** Husky and Lint-Staged ensure code quality through automated linting and formatting on commit.
+-   **Type Safety:** TypeScript is used throughout the project, with ESLint configured to disallow "any" types.
+
+## Project Structure
+
+The project follows a well-organized structure to ensure scalability and maintainability:
+
+-   `app/`: Contains Next.js application routes and pages.
+-   `components/`: Reusable UI components built with Shadcn/ui.
+-   `constants/`: Constants used throughout the application.
+-   `hooks/`: Custom React hooks, including those for React Query.
+-   `lib/`: Utility functions and API configurations.
+-   `services/`: API services for fetching data from the Rick and Morty API.
+-   `store/`: Zustand store for global state management.
+-   `types/`: TypeScript types and interfaces.
 
 ## Getting Started
 
-First, run the development server:
+1.  **Clone the repository:**
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+    ```bash
+    git clone https://github.com/0fatihyildiz/gezer-tech-case.git
+    ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2.  **Install dependencies using pnpm:**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+    ```bash
+    pnpm install
+    ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3.  **Run the development server:**
+
+    ```bash
+    pnpm dev
+    ```
+
+4.  **Open your browser and navigate to `http://localhost:3000`
+
+## Linting and Formatting
+
+This project uses ESLint and Prettier for code linting and formatting. To ensure code quality, the following commands are available:
+
+-   **Lint:**
+
+    ```bash
+    pnpm lint
+    ```
+
+-   **Format:**
+
+    ```bash
+    pnpm lint:fix
+    ```
+
+## Commit Process
+
+Husky and Lint-Staged are configured to automatically lint and format your code before each commit. This ensures that all code adheres to the project's linting rules and formatting guidelines.
 
 ## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+To learn more about the technologies used in this project, refer to the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+-   [Next.js Documentation](https://nextjs.org/docs)
+-   [TypeScript Documentation](https://www.typescriptlang.org/docs/)
+-   [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+-   [Shadcn/ui Documentation](https://ui.shadcn.com/)
+-   [Zustand Documentation](https://github.com/pmndrs/zustand)
+-   [TanStack React Query Documentation](https://tanstack.com/query/latest)
+-   [ESLint Documentation](https://eslint.org/docs/latest/)
+-   [Prettier Documentation](https://prettier.io/docs/en/)
